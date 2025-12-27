@@ -1,0 +1,23 @@
+import { URLS } from '../constants/urls.js'
+
+export class LoginPage {
+  constructor(page) {
+    this.page = page
+    this.usernameInput = page.getByRole('textbox', { name: 'Username' })
+    this.passwordInput = page.getByRole('textbox', { name: 'Password' })
+    this.signInButton = page.getByRole('button', { name: 'Sign in' })
+  }
+
+  async goto() {
+    await this.page.goto(URLS.HOME)
+  }
+
+  async login(username, password) {
+    await this.usernameInput.fill(username)
+    await this.passwordInput.fill(password)
+    await Promise.all([
+      this.page.waitForURL(/\/#\//),
+      this.signInButton.click(),
+    ])
+  }
+}
