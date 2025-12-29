@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures/auth.fixture.js'
+import { test, expect } from './auth.fixture.js'
 
 test.describe('Tasks Management', () => {
   test('view kanban board columns', async ({ page, tasksPage }) => {
@@ -11,12 +11,12 @@ test.describe('Tasks Management', () => {
     await expect(page.getByRole('heading', { name: 'Published' })).toBeVisible()
   })
 
-  test('view tasks on board', async ({ page, tasksPage }) => {
+  test('view tasks on board', async ({ tasksPage }) => {
     await tasksPage.goto()
 
-    await expect(page.getByText('Task 1', { exact: true })).toBeVisible()
-    await expect(page.getByText('Task 2', { exact: true })).toBeVisible()
-    await expect(page.getByText('Task 3', { exact: true })).toBeVisible()
+    await expect(await tasksPage.getTaskByTitle('Task 1')).toBeVisible()
+    await expect(await tasksPage.getTaskByTitle('Task 2')).toBeVisible()
+    await expect(await tasksPage.getTaskByTitle('Task 3')).toBeVisible()
   })
 
   test('tasks have filters', async ({ tasksPage }) => {
@@ -30,8 +30,7 @@ test.describe('Tasks Management', () => {
   test('filter tasks by status', async ({ page, tasksPage }) => {
     await tasksPage.goto()
 
-    await tasksPage.statusFilter.click()
-    await page.getByRole('option', { name: 'Draft' }).click()
+    await tasksPage.filterByStatus('Draft')
 
     await expect(page.getByRole('heading', { name: 'Draft', exact: true })).toBeVisible()
   })
@@ -39,9 +38,41 @@ test.describe('Tasks Management', () => {
   test('navigate to create task page', async ({ page, tasksPage }) => {
     await tasksPage.goto()
 
-    await tasksPage.createLink.click()
+    await tasksPage.gotoCreate()
 
     await expect(page.getByRole('heading', { name: 'Create Task' })).toBeVisible()
-    await expect(page.getByRole('textbox', { name: 'Title' })).toBeVisible()
+    await expect(tasksPage.titleInput).toBeVisible()
+  })
+
+  test('create new task', async ({ page, tasksPage }) => {
+    await tasksPage.goto()
+    await tasksPage.gotoCreate()
+
+    await expect(page.getByRole('heading', { name: 'Create Task' })).toBeVisible()
+
+    await tasksPage.titleInput.fill('New Test Task')
+    await tasksPage.assigneeInput.click()
+    await page.getByRole('option').first().click()
+
+    await tasksPage.statusInput.click()
+    await page.getByRole('option', { name: 'Draft' }).click()
+
+    await tasksPage.saveButton.click()
+
+    await expect(tasksPage.successMessage).toContainText('Element created')
+  })
+
+  test('edit existing task', async ({ page, tasksPage }) => {
+    await tasksPage.goto()
+
+    const taskCard = page.getByRole('button').filter({ hasText: /^Task 2/ }).first()
+    await taskCard.getByRole('link', { name: 'Edit' }).click()
+
+    await expect(page.getByRole('heading', { name: /Task Task 2/ })).toBeVisible()
+
+    await tasksPage.titleInput.fill('Task 2 - Edited')
+    await tasksPage.saveButton.click()
+
+    await expect(tasksPage.successMessage).toContainText('Element updated')
   })
 })

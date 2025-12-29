@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test'
+import { LoginPage } from './pages/LoginPage.js'
 
 test('application renders successfully', async ({ page }) => {
-  await page.goto('/')
+  const loginPage = new LoginPage(page)
+  await loginPage.goto()
 
   await expect(page).toHaveTitle(/Vite \+ React/)
 
-  await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible()
-  await expect(page.getByRole('textbox', { name: 'Password' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(loginPage.usernameInput).toBeVisible()
+  await expect(loginPage.passwordInput).toBeVisible()
+  await expect(loginPage.signInButton).toBeVisible()
 })

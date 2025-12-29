@@ -1,10 +1,10 @@
 import { test as base } from '@playwright/test'
-import { UsersPage } from '../pages/UsersPage.js'
-import { StatusesPage } from '../pages/StatusesPage.js'
-import { LabelsPage } from '../pages/LabelsPage.js'
-import { TasksPage } from '../pages/TasksPage.js'
-import { LoginPage } from '../pages/LoginPage.js'
-import { CREDENTIALS } from '../constants/credentials.js'
+import { UsersPage } from './pages/UsersPage.js'
+import { StatusesPage } from './pages/StatusesPage.js'
+import { LabelsPage } from './pages/LabelsPage.js'
+import { TasksPage } from './pages/TasksPage.js'
+import { LoginPage } from './pages/LoginPage.js'
+import { CREDENTIALS } from './constants.js'
 
 export const test = base.extend({
   page: async ({ page }, use) => {

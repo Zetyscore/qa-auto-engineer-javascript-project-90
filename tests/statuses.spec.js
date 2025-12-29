@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures/auth.fixture.js'
+import { test, expect } from './auth.fixture.js'
 import { TestDataHelper } from './helpers/testData.js'
 import { AssertionHelper } from './helpers/assertions.js'
 
@@ -59,6 +59,8 @@ test.describe('Task Statuses Management', () => {
     await statusesPage.deleteSelectedStatuses()
 
     await AssertionHelper.expectElementDeleted(statusesPage.successMessage)
+    await statusesPage.goto()
+    await expect(await statusesPage.getStatusRowByName(statusName)).toBeHidden()
   })
 
   test('bulk delete statuses', async ({ statusesPage }) => {
@@ -84,5 +86,9 @@ test.describe('Task Statuses Management', () => {
     await statusesPage.deleteSelectedStatuses()
 
     await AssertionHelper.expectElementDeleted(statusesPage.successMessage)
+    await statusesPage.goto()
+    for (const status of statuses) {
+      await expect(await statusesPage.getStatusRowByName(status.name)).toBeHidden()
+    }
   })
 })

@@ -1,5 +1,5 @@
 import { BaseCRUDPage } from './BaseCRUDPage.js'
-import { URLS } from '../constants/urls.js'
+import { URLS } from '../constants.js'
 
 export class StatusesPage extends BaseCRUDPage {
   constructor(page) {

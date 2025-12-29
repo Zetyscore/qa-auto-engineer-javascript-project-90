@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures/auth.fixture.js'
+import { test, expect } from './auth.fixture.js'
 import { TestDataHelper } from './helpers/testData.js'
 import { AssertionHelper } from './helpers/assertions.js'
 
@@ -52,6 +52,8 @@ test.describe('Labels Management', () => {
     await labelsPage.deleteSelectedLabels()
 
     await AssertionHelper.expectElementDeleted(labelsPage.successMessage)
+    await labelsPage.goto()
+    await expect(await labelsPage.getLabelRowByName(labelName)).toBeHidden()
   })
 
   test('bulk delete labels', async ({ labelsPage }) => {
@@ -71,5 +73,9 @@ test.describe('Labels Management', () => {
     await labelsPage.deleteSelectedLabels()
 
     await AssertionHelper.expectElementDeleted(labelsPage.successMessage)
+    await labelsPage.goto()
+    for (const name of labelNames) {
+      await expect(await labelsPage.getLabelRowByName(name)).toBeHidden()
+    }
   })
 })

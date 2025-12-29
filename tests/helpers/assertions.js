@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import { MESSAGES } from '../constants/messages.js'
+import { MESSAGES } from '../constants.js'
 
 export class AssertionHelper {
   static async expectElementCreated(successMessage) {

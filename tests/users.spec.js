@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures/auth.fixture.js'
+import { test, expect } from './auth.fixture.js'
 import { TestDataHelper } from './helpers/testData.js'
 import { AssertionHelper } from './helpers/assertions.js'
 
@@ -63,6 +63,8 @@ test.describe('Users Management', () => {
     await usersPage.deleteSelectedUsers()
 
     await AssertionHelper.expectElementDeleted(usersPage.successMessage)
+    await usersPage.goto()
+    await expect(await usersPage.getUserRowByEmail(testEmail)).toBeHidden()
   })
 
   test('bulk delete users', async ({ usersPage }) => {
@@ -90,5 +92,9 @@ test.describe('Users Management', () => {
     await usersPage.deleteSelectedUsers()
 
     await AssertionHelper.expectElementDeleted(usersPage.successMessage)
+    await usersPage.goto()
+    for (const user of users) {
+      await expect(await usersPage.getUserRowByEmail(user.email)).toBeHidden()
+    }
   })
 })

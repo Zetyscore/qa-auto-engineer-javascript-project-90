@@ -1,4 +1,4 @@
-import { CONFIG } from '../constants/config.js'
+import { CONFIG } from '../constants.js'
 
 export class TestDataHelper {
   static generateEmail(prefix = CONFIG.DEFAULT_PREFIX) {

@@ -1,6 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Zetyscore/qa-auto-engineer-javascript-project-90/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Zetyscore/qa-auto-engineer-javascript-project-90/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Zetyscore_qa-auto-engineer-javascript-project-90&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Zetyscore_qa-auto-engineer-javascript-project-90)
+[![Playwright Tests](https://github.com/Zetyscore/qa-auto-engineer-javascript-project-90/actions/workflows/playwright.yml/badge.svg)](https://github.com/Zetyscore/qa-auto-engineer-javascript-project-90/actions)
 
 ## О проекте
 

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from './pages/LoginPage.js'
 import { MainPage } from './pages/MainPage.js'
-import { CREDENTIALS } from './constants/credentials.js'
+import { CREDENTIALS } from './constants.js'
 
 test.describe('Logout', () => {
   test.beforeEach(async ({ page }) => {
