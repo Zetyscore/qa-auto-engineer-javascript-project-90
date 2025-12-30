@@ -47,12 +47,12 @@ export class UsersPage extends BaseCRUDPage {
     await row.click()
   }
 
-  async getUserRowByEmail(email) {
+  getUserRowByEmail(email) {
     return this.page.getByRole('row').filter({ hasText: email })
   }
 
   async isUserInList(email) {
-    const row = await this.getUserRowByEmail(email)
+    const row = this.getUserRowByEmail(email)
     return await row.count() > 0
   }
 

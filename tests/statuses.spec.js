@@ -14,7 +14,7 @@ test.describe('Task Statuses Management', () => {
     await AssertionHelper.expectElementCreated(statusesPage.successMessage)
 
     await statusesPage.goto()
-    await expect(await statusesPage.getStatusRowByName(statusName)).toBeVisible()
+    await expect(statusesPage.getStatusRowByName(statusName)).toBeVisible()
   })
 
   test('view statuses list', async ({ statusesPage }) => {
@@ -34,14 +34,14 @@ test.describe('Task Statuses Management', () => {
 
     await expect(statusesPage.statusesTable).toBeVisible()
     for (const status of statuses) {
-      await expect(await statusesPage.getStatusRowByName(status.name)).toBeVisible()
+      await expect(statusesPage.getStatusRowByName(status.name)).toBeVisible()
     }
   })
 
-  test('edit status', async ({ page, statusesPage }) => {
+  test('edit status', async ({ loggedPage, statusesPage }) => {
     await statusesPage.goto()
     await statusesPage.clickStatusRow('To Be Fixed')
-    await expect(page.getByRole('heading', { name: /Task status To Be Fixed/ })).toBeVisible()
+    await expect(loggedPage.getByRole('heading', { name: /Task status To Be Fixed/ })).toBeVisible()
 
     await statusesPage.editStatus('Needs Fixing', 'needs_fixing')
 
@@ -60,7 +60,7 @@ test.describe('Task Statuses Management', () => {
 
     await AssertionHelper.expectElementDeleted(statusesPage.successMessage)
     await statusesPage.goto()
-    await expect(await statusesPage.getStatusRowByName(statusName)).toBeHidden()
+    await expect(statusesPage.getStatusRowByName(statusName)).toBeHidden()
   })
 
   test('bulk delete statuses', async ({ statusesPage }) => {
@@ -88,7 +88,7 @@ test.describe('Task Statuses Management', () => {
     await AssertionHelper.expectElementDeleted(statusesPage.successMessage)
     await statusesPage.goto()
     for (const status of statuses) {
-      await expect(await statusesPage.getStatusRowByName(status.name)).toBeHidden()
+      await expect(statusesPage.getStatusRowByName(status.name)).toBeHidden()
     }
   })
 })

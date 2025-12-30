@@ -76,7 +76,7 @@ export class TasksPage {
     await this.selectOption(this.labelFilter, label)
   }
 
-  async getTaskByTitle(title) {
+  getTaskByTitle(title) {
     return this.page.getByText(title, { exact: true })
   }
 
@@ -91,18 +91,13 @@ export class TasksPage {
   }
 
   async dragTaskToColumn(taskTitle, targetColumn) {
-    const taskCard = this.page.getByRole('button').filter({ hasText: taskTitle })
+    // Находим карточку по точному названию задачи
+    const taskCard = this.page.getByText(taskTitle, { exact: true }).locator('..')
 
-    const sourceBox = await taskCard.boundingBox()
-    const targetBox = await targetColumn.boundingBox()
+    await taskCard.waitFor({ state: 'visible', timeout: 5000 })
+    await targetColumn.waitFor({ state: 'visible', timeout: 5000 })
 
-    if (!sourceBox || !targetBox) {
-      throw new Error('Could not get bounding boxes for drag operation')
-    }
-
-    await this.page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2)
-    await this.page.mouse.down()
-    await this.page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + 100)
-    await this.page.mouse.up()
+    // Используем встроенный dragTo для HTML5 drag and drop
+    await taskCard.dragTo(targetColumn)
   }
 }

@@ -48,10 +48,6 @@ logs
 coverage/
 .nyc_output/
 
-# SonarQube
-.scannerwork/
-.sonar/
-
 # Temporary files
 *.tmp
 *.temp

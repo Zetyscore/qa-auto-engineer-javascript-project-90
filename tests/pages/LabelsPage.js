@@ -41,12 +41,12 @@ export class LabelsPage extends BaseCRUDPage {
     await row.click()
   }
 
-  async getLabelRowByName(name) {
+  getLabelRowByName(name) {
     return this.page.getByRole('row').filter({ hasText: name })
   }
 
   async isLabelInList(name) {
-    const row = await this.getLabelRowByName(name)
+    const row = this.getLabelRowByName(name)
     return await row.count() > 0
   }
 

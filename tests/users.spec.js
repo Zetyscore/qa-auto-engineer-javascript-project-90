@@ -13,7 +13,7 @@ test.describe('Users Management', () => {
     await AssertionHelper.expectElementCreated(usersPage.successMessage)
 
     await usersPage.goto()
-    await expect(await usersPage.getUserRowByEmail(testEmail)).toBeVisible()
+    await expect(usersPage.getUserRowByEmail(testEmail)).toBeVisible()
   })
 
   test('view users list', async ({ usersPage }) => {
@@ -35,14 +35,14 @@ test.describe('Users Management', () => {
 
     await expect(usersPage.usersTable).toBeVisible()
     for (const user of users) {
-      await expect(await usersPage.getUserRowByEmail(user.email)).toBeVisible()
+      await expect(usersPage.getUserRowByEmail(user.email)).toBeVisible()
     }
   })
 
-  test('edit user', async ({ page, usersPage }) => {
+  test('edit user', async ({ loggedPage, usersPage }) => {
     await usersPage.goto()
     await usersPage.clickUserRow('peter@outlook.com')
-    await expect(page.getByRole('heading', { name: /User peter@outlook.com/ })).toBeVisible()
+    await expect(loggedPage.getByRole('heading', { name: /User peter@outlook.com/ })).toBeVisible()
 
     await usersPage.editUser('UpdatedPeter', 'Brown')
 
@@ -64,7 +64,7 @@ test.describe('Users Management', () => {
 
     await AssertionHelper.expectElementDeleted(usersPage.successMessage)
     await usersPage.goto()
-    await expect(await usersPage.getUserRowByEmail(testEmail)).toBeHidden()
+    await expect(usersPage.getUserRowByEmail(testEmail)).toBeHidden()
   })
 
   test('bulk delete users', async ({ usersPage }) => {
@@ -94,7 +94,7 @@ test.describe('Users Management', () => {
     await AssertionHelper.expectElementDeleted(usersPage.successMessage)
     await usersPage.goto()
     for (const user of users) {
-      await expect(await usersPage.getUserRowByEmail(user.email)).toBeHidden()
+      await expect(usersPage.getUserRowByEmail(user.email)).toBeHidden()
     }
   })
 })

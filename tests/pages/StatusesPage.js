@@ -44,12 +44,12 @@ export class StatusesPage extends BaseCRUDPage {
     await row.click()
   }
 
-  async getStatusRowByName(name) {
+  getStatusRowByName(name) {
     return this.page.getByRole('row').filter({ hasText: name })
   }
 
   async isStatusInList(name) {
-    const row = await this.getStatusRowByName(name)
+    const row = this.getStatusRowByName(name)
     return await row.count() > 0
   }
 

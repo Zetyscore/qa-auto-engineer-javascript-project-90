@@ -13,7 +13,7 @@ test.describe('Labels Management', () => {
     await AssertionHelper.expectElementCreated(labelsPage.successMessage)
 
     await labelsPage.goto()
-    await expect(await labelsPage.getLabelRowByName(labelName)).toBeVisible()
+    await expect(labelsPage.getLabelRowByName(labelName)).toBeVisible()
   })
 
   test('view labels list', async ({ labelsPage }) => {
@@ -28,14 +28,14 @@ test.describe('Labels Management', () => {
 
     await expect(labelsPage.labelsTable).toBeVisible()
     for (const name of labelNames) {
-      await expect(await labelsPage.getLabelRowByName(name)).toBeVisible()
+      await expect(labelsPage.getLabelRowByName(name)).toBeVisible()
     }
   })
 
-  test('edit label', async ({ page, labelsPage }) => {
+  test('edit label', async ({ loggedPage, labelsPage }) => {
     await labelsPage.goto()
     await labelsPage.clickLabelRow('task')
-    await expect(page.getByRole('heading', { name: /Label task/ })).toBeVisible()
+    await expect(loggedPage.getByRole('heading', { name: /Label task/ })).toBeVisible()
 
     await labelsPage.editLabel('urgent-task')
 
@@ -53,7 +53,7 @@ test.describe('Labels Management', () => {
 
     await AssertionHelper.expectElementDeleted(labelsPage.successMessage)
     await labelsPage.goto()
-    await expect(await labelsPage.getLabelRowByName(labelName)).toBeHidden()
+    await expect(labelsPage.getLabelRowByName(labelName)).toBeHidden()
   })
 
   test('bulk delete labels', async ({ labelsPage }) => {
@@ -75,7 +75,7 @@ test.describe('Labels Management', () => {
     await AssertionHelper.expectElementDeleted(labelsPage.successMessage)
     await labelsPage.goto()
     for (const name of labelNames) {
-      await expect(await labelsPage.getLabelRowByName(name)).toBeHidden()
+      await expect(labelsPage.getLabelRowByName(name)).toBeHidden()
     }
   })
 })
