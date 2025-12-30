@@ -14,6 +14,9 @@ test.describe('Users Management', () => {
 
     await usersPage.goto()
     await expect(usersPage.getUserRowByEmail(testEmail)).toBeVisible()
+
+    await usersPage.selectUserByEmail(testEmail)
+    await usersPage.deleteSelectedUsers()
   })
 
   test('view users list', async ({ usersPage }) => {
@@ -37,6 +40,11 @@ test.describe('Users Management', () => {
     for (const user of users) {
       await expect(usersPage.getUserRowByEmail(user.email)).toBeVisible()
     }
+
+    for (const user of users) {
+      await usersPage.selectUserByEmail(user.email)
+    }
+    await usersPage.deleteSelectedUsers()
   })
 
   test('edit user', async ({ loggedPage, usersPage }) => {

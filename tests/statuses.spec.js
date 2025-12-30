@@ -15,6 +15,9 @@ test.describe('Task Statuses Management', () => {
 
     await statusesPage.goto()
     await expect(statusesPage.getStatusRowByName(statusName)).toBeVisible()
+
+    await statusesPage.selectStatusByName(statusName)
+    await statusesPage.deleteSelectedStatuses()
   })
 
   test('view statuses list', async ({ statusesPage }) => {
@@ -36,6 +39,11 @@ test.describe('Task Statuses Management', () => {
     for (const status of statuses) {
       await expect(statusesPage.getStatusRowByName(status.name)).toBeVisible()
     }
+
+    for (const status of statuses) {
+      await statusesPage.selectStatusByName(status.name)
+    }
+    await statusesPage.deleteSelectedStatuses()
   })
 
   test('edit status', async ({ loggedPage, statusesPage }) => {

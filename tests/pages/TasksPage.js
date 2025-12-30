@@ -68,21 +68,28 @@ export class TasksPage {
     await this.selectOption(this.statusFilter, status)
   }
 
-  async filterByAssignee(assignee) {
-    await this.selectOption(this.assigneeFilter, assignee)
-  }
-
-  async filterByLabel(label) {
-    await this.selectOption(this.labelFilter, label)
-  }
-
   getTaskByTitle(title) {
     return this.page.getByText(title, { exact: true })
+  }
+
+  async createAndReturn({ assignee, title, status, content, label }) {
+    await this.gotoCreate()
+    await this.createTask(assignee, title, status, content, label)
+    await this.goto()
   }
 
   async clickTaskEdit(title) {
     const taskCard = this.page.getByRole('button').filter({ hasText: title })
     await taskCard.getByRole('link', { name: 'Edit' }).click()
+  }
+
+  async deleteTask(taskTitle) {
+    await this.clickTaskEdit(taskTitle)
+
+    await this.page.getByRole('heading', { name: new RegExp(taskTitle) }).waitFor({ state: 'visible' })
+
+    const deleteButton = this.page.getByRole('button', { name: 'Delete' })
+    await deleteButton.click()
   }
 
   async isTaskInColumn(taskTitle, column) {
@@ -97,7 +104,26 @@ export class TasksPage {
     await taskCard.waitFor({ state: 'visible', timeout: 5000 })
     await targetColumn.waitFor({ state: 'visible', timeout: 5000 })
 
-    // Используем встроенный dragTo для HTML5 drag and drop
-    await taskCard.dragTo(targetColumn)
+    // Получаем bounding boxes
+    const taskBound = await taskCard.boundingBox()
+    const targetBound = await targetColumn.boundingBox()
+
+    // Перемещаем мышь к источнику с шагами (критично для react-beautiful-dnd!)
+    await this.page.mouse.move(
+      taskBound.x + taskBound.width / 2,
+      taskBound.y + taskBound.height / 2,
+      { steps: 10 },
+    )
+
+    // Нажимаем мышь
+    await this.page.mouse.down()
+
+    // Перемещаем к целевой колонке с шагами
+    const targetX = targetBound.x + targetBound.width / 2
+    const targetY = targetBound.y + targetBound.height / 2
+    await this.page.mouse.move(targetX, targetY, { steps: 10 })
+
+    // Отпускаем мышь
+    await this.page.mouse.up()
   }
 }

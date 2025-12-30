@@ -31,7 +31,7 @@ export class StatusesPage extends BaseCRUDPage {
   }
 
   async selectStatusByName(name) {
-    const row = this.page.getByRole('row').filter({ hasText: name })
+    const row = this.getStatusRowByName(name)
     await row.getByRole('checkbox').click()
   }
 
@@ -40,7 +40,7 @@ export class StatusesPage extends BaseCRUDPage {
   }
 
   async clickStatusRow(name) {
-    const row = this.page.getByRole('row').filter({ hasText: name })
+    const row = this.getStatusRowByName(name)
     await row.click()
   }
 

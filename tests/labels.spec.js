@@ -14,6 +14,9 @@ test.describe('Labels Management', () => {
 
     await labelsPage.goto()
     await expect(labelsPage.getLabelRowByName(labelName)).toBeVisible()
+
+    await labelsPage.selectLabelByName(labelName)
+    await labelsPage.deleteSelectedLabels()
   })
 
   test('view labels list', async ({ labelsPage }) => {
@@ -30,6 +33,11 @@ test.describe('Labels Management', () => {
     for (const name of labelNames) {
       await expect(labelsPage.getLabelRowByName(name)).toBeVisible()
     }
+
+    for (const name of labelNames) {
+      await labelsPage.selectLabelByName(name)
+    }
+    await labelsPage.deleteSelectedLabels()
   })
 
   test('edit label', async ({ loggedPage, labelsPage }) => {
@@ -46,7 +54,7 @@ test.describe('Labels Management', () => {
     const labelName = TestDataHelper.generateName('DeleteLabel')
 
     await labelsPage.goto()
-    await labelsPage.createAndReturn(labelName)
+    await labelsPage.createAndReturn({ name: labelName })
 
     await labelsPage.selectLabelByName(labelName)
     await labelsPage.deleteSelectedLabels()

@@ -28,7 +28,7 @@ export class LabelsPage extends BaseCRUDPage {
   }
 
   async selectLabelByName(name) {
-    const row = this.page.getByRole('row').filter({ hasText: name })
+    const row = this.getLabelRowByName(name)
     await row.getByRole('checkbox').click()
   }
 
@@ -37,7 +37,7 @@ export class LabelsPage extends BaseCRUDPage {
   }
 
   async clickLabelRow(name) {
-    const row = this.page.getByRole('row').filter({ hasText: name })
+    const row = this.getLabelRowByName(name)
     await row.click()
   }
 
@@ -50,9 +50,15 @@ export class LabelsPage extends BaseCRUDPage {
     return await row.count() > 0
   }
 
-  async createAndReturn(name) {
+  async createAndReturn({ name }) {
     await this.gotoCreate()
     await this.createLabel(name)
     await this.goto()
+  }
+
+  async createMultiple(names) {
+    for (const name of names) {
+      await this.createAndReturn({ name })
+    }
   }
 }

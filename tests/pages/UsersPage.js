@@ -34,7 +34,7 @@ export class UsersPage extends BaseCRUDPage {
   }
 
   async selectUserByEmail(email) {
-    const row = this.page.getByRole('row').filter({ hasText: email })
+    const row = this.getUserRowByEmail(email)
     await row.getByRole('checkbox').click()
   }
 
@@ -43,7 +43,7 @@ export class UsersPage extends BaseCRUDPage {
   }
 
   async clickUserRow(email) {
-    const row = this.page.getByRole('row').filter({ hasText: email })
+    const row = this.getUserRowByEmail(email)
     await row.click()
   }
 
